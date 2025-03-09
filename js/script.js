@@ -1,3 +1,40 @@
+async function register() {
+    const name = document.getElementById('name')?.value;
+    const address = document.getElementById('address')?.value;
+    const email = document.getElementById('email')?.value;
+    const password = document.getElementById('password')?.value;
+    console.log("I came here")
+
+    const response = await fetch('http://localhost:3000/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, address, email, password })
+    });
+
+    const message = await response.text();
+    document.getElementById('message').textContent = message;
+    window.location.href = `http://127.0.0.1:5501/views/login.html`
+}
+async function login() {
+    const email = document.getElementById('email')?.value;
+    const password = document.getElementById('password')?.value;
+
+    const response = await fetch('http://localhost:3000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+    });
+
+    const message = await response.text();
+    document.getElementById('message').textContent = message;
+
+    if (response.ok) {
+        window.location.href = 'home.html';
+    }
+}
+
+
+
 document.addEventListener("DOMContentLoaded", function () {
     console.log("Script loaded successfully!"); // Debugging
 
@@ -27,21 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // 🟢 Register Function
-    async function register() {
-        const name = document.getElementById('name')?.value;
-        const address = document.getElementById('address')?.value;
-        const email = document.getElementById('email')?.value;
-        const password = document.getElementById('password')?.value;
 
-        const response = await fetch('http://localhost:3000/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, address, email, password })
-        });
-
-        const message = await response.text();
-        document.getElementById('message').textContent = message;
-    }
 
     // 🟢 Expense Form Submission
     const expenseForm = document.getElementById('expense-form');

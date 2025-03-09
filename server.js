@@ -9,6 +9,7 @@ const PORT = 3000;
 // Import Routes
 const authRoutes = require('./routes/authRoutes');
 const expenseRoutes = require('./routes/expenseRoutes');
+// const registerUser = require('.routes/registerUser')
 
 // Middleware
 app.use(cors());
