@@ -23,6 +23,9 @@ const Expense = {
     update: (id, title, amount, category, date, callback) => {
         db.run(`UPDATE expenses SET title = ?, amount = ?, category = ?, date = ? WHERE id = ?`,
             [title, amount, category, date, id], callback);
+    },
+    getById: (id, callback) => {
+        db.get(`SELECT * FROM expenses WHERE id = ?`, [id], callback);
     }
 };
 

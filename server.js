@@ -15,6 +15,8 @@ const expenseRoutes = require('./routes/expenseRoutes');
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({ extended: true }));
+
 
 // Routes
 app.use('/api/auth', authRoutes);
