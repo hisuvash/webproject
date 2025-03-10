@@ -1,3 +1,4 @@
 **/node_modules
 databasea.db
 authcontroller_copy.js
+*.pdf
