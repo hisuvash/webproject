@@ -12,8 +12,8 @@ db.run(`CREATE TABLE IF NOT EXISTS expenses (
 
 const Expense = {
     create: (title, amount, category, date, receipt, callback) => {
-        db.run(`INSERT INTO expenses (title, amount, category, date, receipt, email) VALUES (?, ?, ?, ?, ?)`,
-            [title, amount, category, date, receipt,email], callback);
+        db.run(`INSERT INTO expenses (title, amount, category, date, receipt) VALUES (?, ?, ?, ?, ?)`,
+            [title, amount, category, date, receipt], callback);
     },
     getAll: (callback) => {
         db.all(`SELECT * FROM expenses`, callback);
@@ -27,6 +27,9 @@ const Expense = {
     },
     getById: (id, callback) => {
         db.get(`SELECT * FROM expenses WHERE id = ?`, [id], callback);
+    },
+    findByCategory: (category, callback) => {
+        db.all(`SELECT * FROM expenses WHERE category = ?`, [category], callback);
     }
 };
 

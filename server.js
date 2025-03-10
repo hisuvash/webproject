@@ -8,12 +8,8 @@ const PORT = 3000;
 const multer = require('multer'); // Import multer for file handling
 const session = require('express-session'); // Add session support
 
-app.use(session({
-    secret: 'your_secret_key',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false } // Set to true if using HTTPS
-}));
+// 
+
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -31,7 +27,11 @@ const expenseRoutes = require('./routes/expenseRoutes');
 // const registerUser = require('.routes/registerUser')
 
 // Middleware
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+    origin: 'http://127.0.0.1:5501', // Replace with frontend URL
+    credentials: true
+}));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));

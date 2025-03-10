@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Expenses</title>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.2.0/mustache.min.js"></script> -->
+</head>
+<body>
+    <h2>Search Expenses by Category</h2>
+
+    <form id="search-form">
+        <label for="category">Enter Category:</label>
+        <input type="text" id="category" name="category" required>
+        <button type="submit">Search</button>
+    </form>
+
+    <h3>Results:</h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Amount</th>
+                <th>Category</th>
+                <th>Date</th>
+                <th>Receipt</th>
+            </tr>
+        </thead>
+        <tbody id="expense-results"></tbody>
+    </table>
+
+    <!-- Mustache Template for Dynamic Rendering -->
+    <script id="expense-template" type="x-tmpl-mustache">
+        {{#expenses}}
+        <tr>
+            <td>{{title}}</td>
+            <td>{{amount}}</td>
+            <td>{{category}}</td>
+            <td>{{date}}</td>
+            <td>
+                {{#receipt}}
+                    <a href="{{receipt}}" target="_blank">View Receipt</a>
+                {{/receipt}}
+                {{^receipt}}
+                    No Receipt
+                {{/receipt}}
+            </td>
+        </tr>
+        {{/expenses}}
+    </script>
+    <script src="https://unpkg.com/mustache@latest"></script>
+     
+    <script src="/js/script.js"></script>
+    <script>
+        
+    </script>
+</body>
+</html>

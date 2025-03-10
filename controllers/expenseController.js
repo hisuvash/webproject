@@ -14,6 +14,7 @@ exports.addExpense = (req, res) => {
     console.log("Received request body:", req.body)
     console.log(req.file)
     const receipt = req.file ? `/uploads/${req.file.filename}` : null;
+
     console.log("I am in add expense1")
     Expense.create(title, amount, category, date, receipt, (err) => {
         if (err) return res.status(500).send('Error adding expense');
@@ -77,5 +78,14 @@ exports.updateExpense = (req, res) => {
             return res.status(500).json({ error: 'Error updating expense' });
         }
         res.json({ message: 'Expense updated successfully' });
+    });
+};
+
+
+exports.searchExpensesByCategory = (req, res) => {
+    const { category } = req.query;
+    Expense.findByCategory(category, (err, expenses) => {
+        if (err) return res.status(500).json({ error: 'Error fetching expenses' });
+        res.json(expenses);
     });
 };

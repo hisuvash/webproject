@@ -22,14 +22,16 @@ async function login() {
     const response = await fetch('http://localhost:3000/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, password }),
+        credentials: 'include'
+        
     });
 
     const message = await response.text();
     document.getElementById('message').textContent = message;
 
     if (response.ok) {
-        window.location.href = 'home.html';
+        window.location.href = '/views/expense.html';
     }
 }
 
@@ -63,9 +65,11 @@ if (expenseForm) {
         // formData.append('receipt', receipt);
         formData.append('receipt', document.getElementById('receipt').files[0])
         console.log("I am calling for expense enter")
+        
         const response = await fetch('http://localhost:3000/api/expenses/addExpense', {
             method: 'POST',
-            body: formData
+            body: formData,
+             credentials: 'include'
         });
 
         const result = await response.text();
@@ -203,7 +207,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
 
                 if (updateResponse.ok) {
-                    alert("Expense updated successfully!");
+                    // alert("Expense updated successfully!");
                     window.location.href = "../views/expenses.html";
                 } else {
                     alert("Failed to update expense.");
@@ -219,4 +223,46 @@ document.addEventListener("DOMContentLoaded", function () {
     if (window.location.pathname.includes("edit.html")) {
         fetchExpenseDetails();
     }
+});
+
+document.getElementById("search-form").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const category = document.getElementById("category").value;
+
+    const response = await fetch(`http://localhost:3000/api/expenses/search?category=${category}`);
+    const data = await response.json();
+
+    if (!response.ok) {
+        alert("Error fetching data");
+        return;
+    }
+
+    const template = document.getElementById("expense-template").innerHTML;
+    const rendered = Mustache.render(template, { expenses:data });
+    console.log("Expenses rendered successfully!");
+    document.getElementById("expense-results").innerHTML = rendered;
+});
+
+
+document.getElementById("export-csv").addEventListener("click", function () {
+    let table = document.querySelector("table");
+    let rows = Array.from(table.rows);
+    let csvContent = "";
+
+    // Extract data row by row
+    rows.forEach(row => {
+        let cells = Array.from(row.cells).map(cell => cell.innerText.replace(/,/g, "")); // Avoid commas in CSV
+        csvContent += cells.join(",") + "\n";
+    });
+
+    // Create a Blob and Download Link
+    let blob = new Blob([csvContent], { type: "text/csv" });
+    let url = URL.createObjectURL(blob);
+    let a = document.createElement("a");
+    a.href = url;
+    a.download = "expenses.csv";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
 });
