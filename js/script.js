@@ -60,7 +60,8 @@ if (expenseForm) {
         formData.append('amount', amount);
         formData.append('category', category);
         formData.append('date', date);
-        formData.append('receipt', receipt);
+        // formData.append('receipt', receipt);
+        formData.append('receipt', document.getElementById('receipt').files[0])
         console.log("I am calling for expense enter")
         const response = await fetch('http://localhost:3000/api/expenses/addExpense', {
             method: 'POST',
@@ -69,6 +70,7 @@ if (expenseForm) {
 
         const result = await response.text();
         document.getElementById('message').textContent = result;
+        window.location.href = "../views/expenses.html";
     });
 }
 
@@ -194,7 +196,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 console.log("Updating expense:", updatedExpense);
 
-                const updateResponse = await fetch(`http://localhost:3000/api/update-expense/${id}`, {
+                const updateResponse = await fetch(`http://localhost:3000/api/expenses/update-expenses/${id}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(updatedExpense)
@@ -202,7 +204,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (updateResponse.ok) {
                     alert("Expense updated successfully!");
-                    window.location.href = "/views/expenses.html";
+                    window.location.href = "../views/expenses.html";
                 } else {
                     alert("Failed to update expense.");
                 }

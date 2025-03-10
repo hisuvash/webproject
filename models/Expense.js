@@ -6,13 +6,14 @@ db.run(`CREATE TABLE IF NOT EXISTS expenses (
     amount REAL,
     category TEXT,
     date TEXT,
-    receipt TEXT
+    receipt TEXT,
+    email TEXT NOT NULL
 )`);
 
 const Expense = {
     create: (title, amount, category, date, receipt, callback) => {
-        db.run(`INSERT INTO expenses (title, amount, category, date, receipt) VALUES (?, ?, ?, ?, ?)`,
-            [title, amount, category, date, receipt], callback);
+        db.run(`INSERT INTO expenses (title, amount, category, date, receipt, email) VALUES (?, ?, ?, ?, ?)`,
+            [title, amount, category, date, receipt,email], callback);
     },
     getAll: (callback) => {
         db.all(`SELECT * FROM expenses`, callback);

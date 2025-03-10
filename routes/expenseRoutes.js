@@ -27,6 +27,8 @@ const upload = multer({ storage: storage });
 
 // Use multer to handle both file uploads and form data
 router.post('/addExpense', upload.single('receipt'), expenseController.addExpense);
-
+router.put('/update-expenses/:id', expenseController.updateExpense);
 
 module.exports = router;
+
+

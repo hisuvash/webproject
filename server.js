@@ -5,6 +5,25 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
 const PORT = 3000;
+const multer = require('multer'); // Import multer for file handling
+const session = require('express-session'); // Add session support
+
+app.use(session({
+    secret: 'your_secret_key',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // Set to true if using HTTPS
+}));
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/'); // Store files in the uploads folder
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + '-' + file.originalname); // Generate unique filename
+    }
+});
+const upload = multer({ storage: storage });
 
 // Import Routes
 const authRoutes = require('./routes/authRoutes');
@@ -16,7 +35,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Serve uploaded files
 
 // Routes
 app.use('/api/auth', authRoutes);

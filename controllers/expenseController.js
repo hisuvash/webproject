@@ -12,9 +12,10 @@ exports.getExpenses = (req, res) => {
 exports.addExpense = (req, res) => {
     const { title, amount, category, date } = req.body;
     console.log("Received request body:", req.body)
-    console.log(req.body.title)
+    console.log(req.file)
+    const receipt = req.file ? `/uploads/${req.file.filename}` : null;
     console.log("I am in add expense1")
-    Expense.create(title, amount, category, date, null, (err) => {
+    Expense.create(title, amount, category, date, receipt, (err) => {
         if (err) return res.status(500).send('Error adding expense');
         res.send('Expense added successfully');
     });
@@ -46,8 +47,8 @@ exports.getExpense = (req, res) => {
     console.log("I came to give single expense");
 
     const { id } = req.params;
-    ids=6
-    Expense.getById(ids, (err, expense) => {
+
+    Expense.getById(id, (err, expense) => {
         if (err) {
             console.error("Database error:", err);
             return res.status(500).json({ error: 'Internal server error' });
@@ -58,39 +59,23 @@ exports.getExpense = (req, res) => {
             return res.status(404).json({ error: 'Expense not found' });
         }
 
-        console.log("Expense retrieved:", expense);
+        // console.log("Expense retrieved:", expense);
         res.json(expense);
     });
 };
 
-
-
-// exports.getExpense = async (req, res) => {
-//     console.log("I came to give single expense");
-
-//     try {
-//         const { id } = req.params;
-//         const numericId = parseInt(id, 10);
-//         ids=6
-//         const expense = await new Promise((resolve, reject) => {
-//             db.get('SELECT * FROM expenses WHERE id = ?', [id], (err, row) => {
-//                 if (err) reject(err);
-//                 resolve(row);
-//             });
-//         });
-
-//         console.log("Raw expense data:", expense);
-
-//         if (!expense) {
-//             console.warn("Expense not found for ID:", id);
-//             return res.status(404).json({ error: 'Expense not found' });
-//         }
-
-//         res.json(expense);
-//     } catch (error) {
-//         console.error("Database error:", error);
-//         res.status(500).json({ error: 'Internal server error' });
-//     }
-// };
-
-// // 
+exports.updateExpense = (req, res) => {
+    const { id } = req.params;
+    const { title, amount, category, date } = req.body;
+    
+    if (!title || !amount || !category || !date) {
+        return res.status(400).json({ error: 'All fields are required' });
+    }
+    
+    Expense.update(id, title, amount, category, date, (err) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error updating expense' });
+        }
+        res.json({ message: 'Expense updated successfully' });
+    });
+};
