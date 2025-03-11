@@ -24,14 +24,23 @@ const upload = multer({ storage: storage });
 // Import Routes
 const authRoutes = require('./routes/authRoutes');
 const expenseRoutes = require('./routes/expenseRoutes');
+const expenseLimitRoutes = require('./routes/expenseLimitRoutes')
 // const registerUser = require('.routes/registerUser')
 
 // Middleware
-// app.use(cors());
+
+// app.use(cors({
+//     origin: 'http://127.0.0.1:5501', // Replace with frontend URL
+//     credentials: true
+// }));
+
 app.use(cors({
-    origin: 'http://127.0.0.1:5501', // Replace with frontend URL
+    origin: ['http://localhost:5501', 'http://127.0.0.1:5501'], // Allow both variations
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true
 }));
+
+
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -40,6 +49,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Serve u
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/expenses', expenseRoutes);
+app.use('/api/budget', expenseLimitRoutes)
 
 // Start server
 app.listen(PORT, () => {

@@ -1,0 +1,83 @@
+/* General Styling */
+body {
+    background-color: #f8f9fa;
+}
+
+/* Title */
+.title {
+    font-size: 50px;
+    font-weight: bold;
+    color: #343a40;
+}
+
+/* Centering Card */
+.card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh;
+}
+
+/* Card Styling */
+.card {
+    width: 40%;
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+
+/* General Styling */
+body {
+    background-color: #f8f9fa;
+}
+
+/* Title */
+.title {
+    font-size: 50px;
+    font-weight: bold;
+    color: #343a40;
+}
+
+/* Specific Styling for expenses.html */
+#expenses-page .card-wide {
+    width: 90%;
+    max-width: 1200px;
+    margin-top: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Table Styling */
+#expenses-page .table {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Buttons Styling */
+#expenses-page .btn {
+    font-size: 16px;
+    padding: 8px 12px;
+    border-radius: 5px;
+}
+
+/* Make Sorting Buttons Smaller */
+#expenses-page .btn-sm {
+    font-size: 12px;
+    padding: 4px 6px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #expenses-page .card-wide {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .title {
+        font-size: 36px;
+    }
+}

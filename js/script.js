@@ -15,25 +15,25 @@ async function register() {
     document.getElementById('message').textContent = message;
     window.location.href = `http://127.0.0.1:5501/views/login.html`
 }
-async function login() {
-    const email = document.getElementById('email')?.value;
-    const password = document.getElementById('password')?.value;
+// async function login() {
+//     const email = document.getElementById('email')?.value;
+//     const password = document.getElementById('password')?.value;
 
-    const response = await fetch('http://localhost:3000/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-        credentials: 'include'
+//     const response = await fetch('http://localhost:3000/api/auth/login', {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({ email, password }),
+//         credentials: 'include'
         
-    });
+//     });
 
-    const message = await response.text();
-    document.getElementById('message').textContent = message;
+//     const message = await response.text();
+//     document.getElementById('message').textContent = message;
 
-    if (response.ok) {
-        window.location.href = '/views/expense.html';
-    }
-}
+//     if (response.ok) {
+//         window.location.href = '/views/expenses.html';
+//     }
+// }
 
    // 🟢 Expense Form Submission
 const expenseForm = document.getElementById('expense-form');
@@ -43,7 +43,7 @@ if (expenseForm) {
 
         const title = document.getElementById('title').value;
         const amount = document.getElementById('amount').value;
-        const category = document.querySelector('input[name="category"]:checked')?.value;
+        const category = document.getElementById('category').value;
         const date = document.getElementById('date').value;
         const receipt = document.getElementById('receipt').files[0];
 
@@ -225,44 +225,108 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-document.getElementById("search-form").addEventListener("submit", async function(event) {
-    event.preventDefault();
+// document.getElementById("search-form").addEventListener("submit", async function(event) {
+//     event.preventDefault();
 
-    const category = document.getElementById("category").value;
+//     const category = document.getElementById("category").value;
 
-    const response = await fetch(`http://localhost:3000/api/expenses/search?category=${category}`);
-    const data = await response.json();
+//     const response = await fetch(`http://localhost:3000/api/expenses/search?category=${category}`);
+//     const data = await response.json();
 
-    if (!response.ok) {
-        alert("Error fetching data");
-        return;
-    }
+//     if (!response.ok) {
+//         alert("Error fetching data");
+//         return;
+//     }
 
-    const template = document.getElementById("expense-template").innerHTML;
-    const rendered = Mustache.render(template, { expenses:data });
-    console.log("Expenses rendered successfully!");
-    document.getElementById("expense-results").innerHTML = rendered;
-});
+//     const template = document.getElementById("expense-template").innerHTML;
+//     const rendered = Mustache.render(template, { expenses:data });
+//     console.log("Expenses rendered successfully!");
+//     document.getElementById("expense-results").innerHTML = rendered;
+// });
 
+const searchForm = document.getElementById("search-form");
 
-document.getElementById("export-csv").addEventListener("click", function () {
-    let table = document.querySelector("table");
-    let rows = Array.from(table.rows);
-    let csvContent = "";
+if (searchForm) {  // Check if the element exists before adding event listener
+    searchForm.addEventListener("submit", async function(event) {
+        event.preventDefault();
 
-    // Extract data row by row
-    rows.forEach(row => {
-        let cells = Array.from(row.cells).map(cell => cell.innerText.replace(/,/g, "")); // Avoid commas in CSV
-        csvContent += cells.join(",") + "\n";
+        const categoryInput = document.getElementById("category");
+        const expenseResults = document.getElementById("expense-results");
+        const expenseTemplate = document.getElementById("expense-template");
+
+        if (!categoryInput || !expenseResults || !expenseTemplate) {
+            console.error("Required elements are missing in the document.");
+            return;
+        }
+
+        const category = categoryInput.value;
+
+        try {
+            const response = await fetch(`http://localhost:3000/api/expenses/search?category=${category}`);
+            const data = await response.json();
+
+            if (!response.ok) {
+                alert("Error fetching data");
+                return;
+            }
+
+            const rendered = Mustache.render(expenseTemplate.innerHTML, { expenses: data });
+            console.log("Expenses rendered successfully!");
+            expenseResults.innerHTML = rendered;
+        } catch (error) {
+            console.error("Error fetching expenses:", error);
+            alert("Failed to fetch expenses.");
+        }
     });
+}
 
-    // Create a Blob and Download Link
-    let blob = new Blob([csvContent], { type: "text/csv" });
-    let url = URL.createObjectURL(blob);
-    let a = document.createElement("a");
-    a.href = url;
-    a.download = "expenses.csv";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-});
+
+// document.getElementById("export-csv").addEventListener("click", function () {
+//     let table = document.querySelector("table");
+//     let rows = Array.from(table.rows);
+//     let csvContent = "";
+
+//     // Extract data row by row
+//     rows.forEach(row => {
+//         let cells = Array.from(row.cells).map(cell => cell.innerText.replace(/,/g, "")); // Avoid commas in CSV
+//         csvContent += cells.join(",") + "\n";
+//     });
+
+//     // Create a Blob and Download Link
+//     let blob = new Blob([csvContent], { type: "text/csv" });
+//     let url = URL.createObjectURL(blob);
+//     let a = document.createElement("a");
+//     a.href = url;
+//     a.download = "expenses.csv";
+//     document.body.appendChild(a);
+//     a.click();
+//     document.body.removeChild(a);
+// });
+
+async function login() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    try {
+        const response = await fetch("http://localhost:3000/api/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            localStorage.setItem("userToken", data.token);  // Store token in localStorage
+            alert("Login successful!");
+            window.location.href = "expenses.html";  // Redirect to home
+        } else {
+            alert(data.message || "Login failed. Try again.");
+        }
+    } catch (error) {
+        console.error("Login error:", error);
+        alert("Error logging in.");
+    }
+}
