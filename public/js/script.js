@@ -73,7 +73,7 @@ async function fetchExpenses() {
 // 🟢 Edit Expense
 window.editExpense = function (id) {
     console.log(`Edit button clicked! Redirecting to edit.html?id=${id}`);
-    window.location.href = `http://localhost:5501/views/edit.html?id=${id}`;
+    window.location.href = `http://localhost:5501/public/views/edit.html?id=${id}`;
 };
 
 document.addEventListener("DOMContentLoaded", function () {

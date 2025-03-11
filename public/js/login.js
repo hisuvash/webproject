@@ -60,7 +60,7 @@ async function validateAndLogin() {
         const data = await response.json();
 
         if (response.ok) {
-            localStorage.setItem("userToken", data.token);
+            localStorage.setItem("userToken", data.token); //stores token got from authcontroller
             window.location.href = "expenses.html";
         } else {
             loginError.textContent = "Username or password mismatch. Please try again.";

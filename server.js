@@ -28,16 +28,15 @@ const expenseLimitRoutes = require('./routes/expenseLimitRoutes')
 // const registerUser = require('.routes/registerUser')
 
 // Middleware
-
 app.use(cors({
-    origin: ['http://localhost:5501', 'http://127.0.0.1:5501'], // Allow both variations
+    origin: ['http://localhost:5501', 'http://127.0.0.1:5501'], 
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true
 }));
 
 
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, '/views/css')));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Serve uploaded files
 

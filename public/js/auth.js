@@ -1,6 +1,6 @@
 // Load Navbar Dynamically in All Pages
 document.addEventListener("DOMContentLoaded", function () {
-    fetch("../views/partials/navbar.html")  // Load the navbar from partials
+    fetch("../partials/navbar.html")  // Load the navbar from partials
         .then(response => response.text())
         .then(data => {
             document.getElementById("navbar-placeholder").innerHTML = data;
