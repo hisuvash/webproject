@@ -1,22 +1,3 @@
-// 🟢 Register User
-async function register() {
-    const name = document.getElementById('name')?.value;
-    const address = document.getElementById('address')?.value;
-    const email = document.getElementById('email')?.value;
-    const password = document.getElementById('password')?.value;
-    
-    console.log("I came here");
-
-    const response = await fetch('http://localhost:3000/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, address, email, password })
-    });
-
-    const message = await response.text();
-    document.getElementById('message').textContent = message;
-    window.location.href = `http://localhost:5501/views/login.html`;
-}
 
 // 🟢 Expense Form Submission
 const expenseForm = document.getElementById('expense-form');
