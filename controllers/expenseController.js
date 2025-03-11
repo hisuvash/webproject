@@ -30,22 +30,12 @@ exports.deleteExpense = (req, res) => {
     });
 };
 
-// exports.getExpense = (req, res) => {
-//     console.log("I came to give single expense")
-//     const { id } = req.params;
-//     Expense.getById(id, (err, expense) => {
-//         if (err || !expense) return res.status(404).json({ error: 'Expense not found' });
-//         console.log("From get expense", expense)
-//         res.json(expense);
-//     });
-// };
 
 
 
 
 
 exports.getExpense = (req, res) => {
-    console.log("I came to give single expense");
 
     const { id } = req.params;
 
