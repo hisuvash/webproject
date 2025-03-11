@@ -1,0 +1,59 @@
+
+/* Budget Limits Page Styling */
+#budget-page {
+    background-color: #f8f9fa;
+}
+
+/* Title */
+.title {
+    font-size: 36px;
+    font-weight: bold;
+    color: #343a40;
+}
+
+/* Cards Styling */
+.card {
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    width: 80%;
+}
+
+/* Smaller Input Fields */
+#budget-form .form-control-sm {
+    font-size: 14px;
+    padding: 6px;
+    border-radius: 5px;
+}
+
+/* Dropdown Styling */
+#budget-form select {
+    font-size: 14px;
+    padding: 6px;
+    border-radius: 5px;
+    appearance: none;
+}
+
+/* Table Styling */
+.table {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Button Styling */
+.btn-primary {
+    font-size: 16px;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .title {
+        font-size: 30px;
+    }
+
+    .card {
+        margin-bottom: 20px;
+    }
+}

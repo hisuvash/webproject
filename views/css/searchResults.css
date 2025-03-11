@@ -1,0 +1,49 @@
+/* Expense Search Page Styling */
+#expenses-page {
+    background-color: #f8f9fa;
+}
+
+/* Title */
+.title {
+    font-size: 36px;
+    font-weight: bold;
+    color: #343a40;
+}
+
+/* Cards Styling */
+.card {
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Form Controls */
+.form-control {
+    font-size: 16px;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+/* Button Styling */
+.btn-primary, .btn-success {
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Table Styling */
+.table {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .title {
+        font-size: 30px;
+    }
+
+    .card {
+        margin-bottom: 20px;
+    }
+}

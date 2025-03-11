@@ -1,0 +1,33 @@
+/* Center the card */
+.min-vh-75 {
+    min-height: 75vh;
+}
+
+/* Smaller login card */
+.login-card {
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Smaller input fields */
+.form-control-sm {
+    font-size: 14px;
+    padding: 6px;
+    border-radius: 5px;
+}
+
+/* Smaller button */
+.btn-sm {
+    font-size: 14px;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .col-md-4 {
+        width: 100%;
+        max-width: 350px;
+    }
+}

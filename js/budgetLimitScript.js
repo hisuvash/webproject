@@ -25,7 +25,7 @@ async function fetchBudgetLimits() {
     const budgetList = document.getElementById('budget-list');
     
     if (!templateElement || !budgetList) {
-        console.error("Error: Mustache template or budget list not found.");
+        // console.error("Error: Mustache template or budget list not found.");
         return;
     }
     

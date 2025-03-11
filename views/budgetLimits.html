@@ -3,53 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Budget Limits</title>
-    
+    <title>Set Budget Limits - Expense Tracker</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/budgetLimits.css"> <!-- Page-specific CSS -->
+
+    <script src="/js/script.js" defer></script>
+    <script src="/js/auth.js" defer></script>
 </head>
-<body>
-    <h2>Set Monthly Budget Limits</h2>
-    <form id="budget-form">
-        <label for="category">Category:</label>
-        <input type="text" id="category" name="category" required>
+<body id="budget-page">
 
-        <label for="amount">Amount:</label>
-        <input type="number" id="amount" name="amount" required>
+    <!-- Title -->
+    <div class="container text-center mt-4">
+        <h1 class="title">Expense Tracker</h1>
+    </div>
 
-        <label for="month">Month:</label>
-        <input type="text" id="month" name="month" required>
+    <!-- Navigation Bar -->
+    <div id="navbar-placeholder"></div>
 
-        <label for="notes">Notes:</label>
-        <input type="text" id="notes" name="notes">
+    <!-- Budget Section (Form & Table Side by Side) -->
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Budget Form Card -->
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-lg">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Set Budget Limit</h5>
 
-        <button  onclick="addBudgetLimit()" >Add Budget</button>
-    </form>
-    <p id="message"></p>
+                        <form id="budget-form">
+                            <div class="mb-2">
+                                <label for="category" class="form-label">Category:</label>
+                                <select id="category" name="category" class="form-control form-control-sm" required>
+                                    <option value="" disabled selected>Select a category</option>
+                                    <option value="Grocery">Grocery</option>
+                                    <option value="Restaurant">Restaurant</option>
+                                    <option value="Fruits">Fruits</option>
+                                    <option value="Vegetables">Vegetables</option>
+                                    <option value="Utensils">Utensils</option>
+                                    <option value="Repair">Repair</option>
+                                    <option value="Books">Books</option>
+                                    <option value="Gas">Gas</option>
+                                    <option value="Rent">Rent</option>
+                                    <option value="Utilities">Utilities</option>
+                                    <option value="Clothing">Clothing</option>
+                                    <option value="Medicines">Medicines</option>
+                                    <option value="Gym">Gym</option>
+                                    <option value="Tools">Tools</option>
+                                </select>
+                            </div>
 
-    <h3>Budget Limits</h3>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Category</th>
-                <th>Amount</th>
-                <th>Month</th>
-                <th>Notes</th>
-            </tr>
-        </thead>
-        <tbody id="budget-list"></tbody>
-    </table>
+                            <div class="mb-2">
+                                <label for="amount" class="form-label">Amount:</label>
+                                <input type="number" id="amount" name="amount" class="form-control form-control-sm" required min="1">
+                            </div>
 
-    <script id="budget-template" type="x-tmpl-mustache">
-        {{#budgetLimits}}
-        <tr>
-            <td>{{category}}</td>
-            <td>{{amount}}</td>
-            <td>{{month}}</td>
-            <td>{{notes}}</td>
-        </tr>
-        {{/budgetLimits}}
-    </script>
+                            <div class="mb-2">
+                                <label for="month" class="form-label">Month (YYYY-MM):</label>
+                                <input type="month" id="month" name="month" class="form-control form-control-sm" required>
+                            </div>
+
+                            <div class="mb-2">
+                                <label for="notes" class="form-label">Notes:</label>
+                                <input type="text" id="notes" name="notes" class="form-control form-control-sm" maxlength="100">
+                            </div>
+
+                            <button type="button" class="btn btn-primary w-100" onclick="addBudgetLimit()">Add Budget</button>
+                        </form>
+
+                        <p id="message" class="text-center mt-3"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Budget Table Card -->
+            <div class="col-md-6">
+                <div class="card shadow-lg">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Budget Limits</h5>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>Amount</th>
+                                        <th>Month</th>
+                                        <th>Notes</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="budget-list"></tbody>
+                            </table>
+                        </div>
+
+                        <!-- Mustache Template for Rendering -->
+                        <script id="budget-template" type="x-tmpl-mustache">
+                            {{#budgetLimits}}
+                            <tr>
+                                <td>{{category}}</td>
+                                <td>${{amount}}</td>
+                                <td>{{month}}</td>
+                                <td>{{notes}}</td>
+                            </tr>
+                            {{/budgetLimits}}
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- External Scripts -->
     <script src="https://unpkg.com/mustache@latest"></script>
     <script src="/js/budgetLimitScript.js"></script>
-    
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

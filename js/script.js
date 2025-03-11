@@ -13,7 +13,7 @@ async function register() {
 
     const message = await response.text();
     document.getElementById('message').textContent = message;
-    window.location.href = `http://127.0.0.1:5501/views/login.html`
+    window.location.href = `http://localhost:5501/views/login.html`
 }
 // async function login() {
 //     const email = document.getElementById('email')?.value;
@@ -109,7 +109,7 @@ if (expenseForm) {
     // 🟢 Make editExpense globally accessible
 window.editExpense = function (id) {
     console.log(`Edit button clicked! Redirecting to edit.html?id=${id}`);
-    window.location.href = ` http://127.0.0.1:5501/views/edit.html?id=${id}`;
+    window.location.href = ` http://localhost:5501/views/edit.html?id=${id}`;
 };
 document.addEventListener("DOMContentLoaded", function () {
     console.log("Script loaded successfully!"); // Debugging
@@ -135,14 +135,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // 🟢 Register Function
-
 
  
 
- 
-
-    // 🟢 Delete Expense
+// 🟢 Delete Expense
     window.deleteExpense = async function (id) {
         if (confirm("Are you sure you want to delete this expense?")) {
             const response = await fetch(`http://localhost:3000/api/expenses/delete-expense/${id}`, { method: 'DELETE' });
@@ -225,24 +221,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-// document.getElementById("search-form").addEventListener("submit", async function(event) {
-//     event.preventDefault();
-
-//     const category = document.getElementById("category").value;
-
-//     const response = await fetch(`http://localhost:3000/api/expenses/search?category=${category}`);
-//     const data = await response.json();
-
-//     if (!response.ok) {
-//         alert("Error fetching data");
-//         return;
-//     }
-
-//     const template = document.getElementById("expense-template").innerHTML;
-//     const rendered = Mustache.render(template, { expenses:data });
-//     console.log("Expenses rendered successfully!");
-//     document.getElementById("expense-results").innerHTML = rendered;
-// });
 
 const searchForm = document.getElementById("search-form");
 
@@ -281,27 +259,37 @@ if (searchForm) {  // Check if the element exists before adding event listener
 }
 
 
-// document.getElementById("export-csv").addEventListener("click", function () {
-//     let table = document.querySelector("table");
-//     let rows = Array.from(table.rows);
-//     let csvContent = "";
+document.addEventListener("DOMContentLoaded", function () {
+    let exportButton = document.getElementById("export-csv");
 
-//     // Extract data row by row
-//     rows.forEach(row => {
-//         let cells = Array.from(row.cells).map(cell => cell.innerText.replace(/,/g, "")); // Avoid commas in CSV
-//         csvContent += cells.join(",") + "\n";
-//     });
+    if (exportButton) { // Ensure the button exists before adding the event listener
+        exportButton.addEventListener("click", function () {
+            let table = document.querySelector("table");
 
-//     // Create a Blob and Download Link
-//     let blob = new Blob([csvContent], { type: "text/csv" });
-//     let url = URL.createObjectURL(blob);
-//     let a = document.createElement("a");
-//     a.href = url;
-//     a.download = "expenses.csv";
-//     document.body.appendChild(a);
-//     a.click();
-//     document.body.removeChild(a);
-// });
+            if (!table) return; // Exit if the table is not found
+
+            let rows = Array.from(table.rows);
+            let csvContent = "";
+
+            // Extract data row by row
+            rows.forEach(row => {
+                let cells = Array.from(row.cells).map(cell => cell.innerText.replace(/,/g, "")); // Avoid commas in CSV
+                csvContent += cells.join(",") + "\n";
+            });
+
+            // Create a Blob and Download Link
+            let blob = new Blob([csvContent], { type: "text/csv" });
+            let url = URL.createObjectURL(blob);
+            let a = document.createElement("a");
+            a.href = url;
+            a.download = "category_expenses.csv";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
+    }
+});
+
 
 async function login() {
     const email = document.getElementById("email").value;
