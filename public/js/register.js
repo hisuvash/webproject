@@ -79,7 +79,7 @@ async function validateAndRegister() {
         if (response.ok) {
             message.textContent = "Registration successful! Redirecting...";
             message.classList.add("text-success");
-            window.location.href = "http://localhost:5501/views/login.html";
+            window.location.href = "http://localhost:5501/public/views/login.html";
         } else {
             message.textContent = result;
             message.classList.add("text-danger");

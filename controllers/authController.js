@@ -31,6 +31,9 @@ exports.register = (req, res) => {
                     res.status(500).send('Email not sent');
                 } else {
                     res.send('Registration successful! Check your email for verification.');
+                    setTimeout(function() {
+                        window.location.href = '/login.html'; 
+                    }, 3000);
                 }
             });
         }
