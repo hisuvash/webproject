@@ -71,7 +71,7 @@ async function validateAndLogin() {
     }
 }
 
-// 🟢 Hide Error Messages When User Clicks Input
+// Hide Error Messages When User Clicks Input
 document.getElementById("email").addEventListener("focus", () => {
     document.getElementById("email-error").textContent = "";
     document.getElementById("login-error").textContent = ""; // Clear login error
