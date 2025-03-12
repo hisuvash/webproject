@@ -33,7 +33,5 @@ async function fetchBudgetLimits() {
     const rendered = Mustache.render(template, { budgetLimits: data });
     budgetList.innerHTML = rendered;
 }
-
-// document.getElementById("budget-form").addEventListener("submit", addBudgetLimit);
 fetchBudgetLimits();
 

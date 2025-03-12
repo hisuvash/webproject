@@ -29,7 +29,7 @@ const expenseLimitRoutes = require('./routes/expenseLimitRoutes')
 
 // Middleware
 app.use(cors({
-    origin: ['http://localhost:5501', 'http://127.0.0.1:5501'], 
+    origin: '*', 
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true
 }));

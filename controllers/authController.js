@@ -3,20 +3,18 @@ const User = require('../models/User');
 const nodemailer = require('nodemailer');
 const db = require('../config/database');
 const jwt = require('jsonwebtoken');
-const SECRET_KEY = 'your_secret_key'; // Store securely in .env
+const SECRET_KEY = 'a_secret_key'; 
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'mrsuvash@gmail.com',  // Replace with your email
-        pass: 'vqbz awkg cljs acgf'  // Replace with your email password
+        user: 'mrsuvash@gmail.com',  
+        pass: 'vqbz awkg cljs acgf'  
     }
 });
 exports.register = (req, res) => {
     const { name, address, email, password } = req.body;
     const verificationCode = Math.random().toString(36).substr(2, 8);
-
-    // console.log("Did i come here to register")
     User.create(name, address, email, password, (err) => {
         if (err) {
             return res.status(400).send('User already exists');
@@ -48,7 +46,6 @@ exports.login = (req, res) => {
         if (err || !user || user.password !== password) {
             return res.status(401).send('Invalid credentials');
         }
-        console.log("Email to be stored ", email)
         const token = jwt.sign({ email }, SECRET_KEY, { expiresIn: '1h' });
 
         // Send the token to the frontend

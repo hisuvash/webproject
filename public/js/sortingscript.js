@@ -2,12 +2,12 @@
 let expensesData = []; // Store fetched expenses for sorting
 let isAmountAscending = true; // Toggle state for amount sorting
 let isDateAscending = true;   // Toggle state for date sorting
-
+email='abc@test.com'
 // Fetch and render expenses
 async function fetchExpenses() {
     try {
         console.log("Fetching expenses...");
-        const response = await fetch('http://localhost:3000/api/expenses');
+        const response = await fetch(`http://localhost:3000/api/expenses/${email}`);
         if (!response.ok) throw new Error("Failed to fetch expenses");
 
         expensesData = await response.json();

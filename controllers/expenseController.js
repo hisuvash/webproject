@@ -3,23 +3,25 @@ const Expense = require('../models/Expense');
 const db = require('../config/database');
 
 exports.getExpenses = (req, res) => {
-    Expense.getAll((err, expenses) => {
+    const { email } = req.params;
+    Expense.getAll(email, (err, expenses) => {
         if (err) return res.status(500).json({ error: 'Error fetching expenses' });
         res.json(expenses);
     });
 };
 
 exports.addExpense = (req, res) => {
-    const { title, amount, category, date } = req.body;
+    const { title, amount, category, date, email } = req.body;
     console.log("Received request body:", req.body)
     console.log(req.file)
     const receipt = req.file ? `/uploads/${req.file.filename}` : null;
 
     console.log("I am in add expense1")
-    Expense.create(title, amount, category, date, receipt, (err) => {
+    Expense.create(title, amount, category, date, receipt, email, (err) => {
         if (err) return res.status(500).send('Error adding expense');
         res.send('Expense added successfully');
     });
+    // console.log("data added")
 };
 
 exports.deleteExpense = (req, res) => {
@@ -72,10 +74,47 @@ exports.updateExpense = (req, res) => {
 };
 
 
+// exports.searchExpensesByCategory = (req, res) => {
+//     const { category, email } = req.query;
+//     console.log("came to search expense controller", category, email)
+//     // Expense.findByCategory(category, email, (err, expenses) => {
+//     //     if (err) return res.status(500).json({ error: 'Error fetching expenses' });
+//     //     console.log("came to search expense controller 1")
+//     //     console.log("data got", json)
+//     //     res.json(expenses);
+//     // });
+// };
+
+
 exports.searchExpensesByCategory = (req, res) => {
-    const { category } = req.query;
-    Expense.findByCategory(category, (err, expenses) => {
-        if (err) return res.status(500).json({ error: 'Error fetching expenses' });
+    // const { category, email } = req.query;
+    // console.log("I was called to get data")
+    // if (!category || !email) {
+    //     return res.status(400).json({ message: "Category and email are required" });
+    // }
+    console.log("Came to the controller")
+    Expense.findByCategory((err, expenses) => {
+        if (err) {
+            return res.status(500).json({ message: "Error retrieving expenses", error: err });
+        }
+        alert(expenses)
+
+        res.json(expenses);
+    });
+
+
+
+};
+
+
+exports.categoryItem = (req, res) => {
+    const {category, email} = req.query
+    Expense.findByCategory(category,email,(err, expenses) => {
+        if (err) {
+            return res.status(500).json({ message: "Error retrieving expenses", error: err });
+        }
+        // alert(expenses)
+        console.log("data here ", expenses)
         res.json(expenses);
     });
 };

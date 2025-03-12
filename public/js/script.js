@@ -1,3 +1,18 @@
+//Get email from tokens
+function getEmailFromToken() {
+    const token = localStorage.getItem("userToken"); // Get the stored token
+    if (!token) return null; // Return null if no token is found
+
+    try {
+        const payload = JSON.parse(atob(token.split(".")[1])); // Decode the JWT payload
+        console.log(payload.email)
+        return payload.email; // Extract the email
+    } catch (error) {
+        console.error("Error decoding token:", error);
+        return null;
+    }
+}
+
 
 // 🟢 Expense Form Submission
 const expenseForm = document.getElementById('expense-form');
@@ -10,6 +25,7 @@ if (expenseForm) {
         const category = document.getElementById('category').value;
         const date = document.getElementById('date').value;
         const receipt = document.getElementById('receipt').files[0];
+        const email = getEmailFromToken()
 
         if (!category) {
             alert("Please select a category.");
@@ -26,6 +42,7 @@ if (expenseForm) {
         formData.append('amount', amount);
         formData.append('category', category);
         formData.append('date', date);
+        formData.append('email',email)
         formData.append('receipt', document.getElementById('receipt').files[0]);
 
         console.log("I am calling for expense enter");
@@ -43,32 +60,33 @@ if (expenseForm) {
 }
 
 // 🟢 Fetch and Render Expenses
-async function fetchExpenses() {
-    try {
-        console.log("Fetching expenses...");
-        const response = await fetch('http://localhost:3000/api/expenses');
-        if (!response.ok) throw new Error("Failed to fetch expenses");
+email=getEmailFromToken()
+// async function fetchExpenses(email) {
+//     try {
+//         console.log("Fetching expenses...");
+//         const response = await fetch(`http://localhost:3000/api/expenses/${email}`);
+//         if (!response.ok) throw new Error("Failed to fetch expenses");
 
-        const expenses = await response.json();
-        console.log("Expenses fetched:", expenses);
+//         const expenses = await response.json();
+//         console.log("Expenses fetched:", expenses);
 
-        const templateElement = document.getElementById('expense-template');
-        const expenseList = document.getElementById('expense-list');
+//         const templateElement = document.getElementById('expense-template');
+//         const expenseList = document.getElementById('expense-list');
 
-        if (!templateElement || !expenseList) {
-            console.error("Error: Mustache template or expense list not found.");
-            return;
-        }
+//         if (!templateElement || !expenseList) {
+//             console.error("Error: Mustache template or expense list not found.");
+//             return;
+//         }
 
-        const template = templateElement.innerHTML;
-        const rendered = Mustache.render(template, { expenses });
+//         const template = templateElement.innerHTML;
+//         const rendered = Mustache.render(template, { expenses });
 
-        expenseList.innerHTML = rendered;
-        console.log("Expenses rendered successfully!");
-    } catch (error) {
-        console.error("Error loading expenses:", error);
-    }
-}
+//         expenseList.innerHTML = rendered;
+//         console.log("Expenses rendered successfully!");
+//     } catch (error) {
+//         console.error("Error loading expenses:", error);
+//     }
+// }
 
 // 🟢 Edit Expense
 window.editExpense = function (id) {
@@ -159,32 +177,34 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // 🟢 Search Expenses
-const searchForm = document.getElementById("search-form");
+// const searchForm = document.getElementById("search-form");
 
-if (searchForm) {
-    searchForm.addEventListener("submit", async function(event) {
-        event.preventDefault();
+// if (searchForm) {
+//     searchForm.addEventListener("submit", async function(event) {
+//         event.preventDefault();
 
-        const category = document.getElementById("category").value;
+//         const category = document.getElementById("category").value;
+//         console.log("search by category came here", email)
+//         try {
+//             const response = await fetch(`http://localhost:3000/api/expenses/searchme`);
+//             const data = await response.json();
 
-        try {
-            const response = await fetch(`http://localhost:3000/api/expenses/search?category=${category}`);
-            const data = await response.json();
+//             console.log("I got this data ", data)
 
-            if (!response.ok) {
-                alert("Error fetching data");
-                return;
-            }
+//             if (!response.ok) {
+//                 alert("Error fetching data");
+//                 return;
+//             }
 
-            const rendered = Mustache.render(document.getElementById("expense-template").innerHTML, { expenses: data });
-            console.log("Expenses rendered successfully!");
-            document.getElementById("expense-results").innerHTML = rendered;
-        } catch (error) {
-            console.error("Error fetching expenses:", error);
-            alert("Failed to fetch expenses.");
-        }
-    });
-}
+//             const rendered = Mustache.render(document.getElementById("expense-template").innerHTML, { expenses: data });
+//             console.log("Expenses rendered successfully!");
+//             document.getElementById("expense-results").innerHTML = rendered;
+//         } catch (error) {
+//             console.error("Error fetching expenses:", error);
+//             alert("Failed to fetch expenses.");
+//         }
+//     });
+// }
 
 // 🟢 Export to CSV
 document.addEventListener("DOMContentLoaded", function () {
@@ -210,3 +230,57 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+
+
+// async function searchByCategory(){
+//             const category = document.getElementById("category").value;
+//         console.log("search by category came here", email , category)
+//         try {
+//             const response = await fetch(`http://localhost:3000/api/expenses/search?category=${category}`);
+//             const data = await response.json();
+
+//             console.log("I got this data here ", data)
+
+//             if (!response.ok) {
+//                 alert("Error fetching data");
+//                 return;
+//             }
+            
+//             const rendered = Mustache.render(document.getElementById("expense-template").innerHTML, { expenses: data });
+//             console.log("Expenses rendered successfully!");
+//             document.getElementById("expense-results").innerHTML = rendered;
+//         } catch (error) {
+//             console.error("Error fetching expenses:", error);
+//             alert("Failed to fetch expenses.");
+//         }
+// }
+// 🟢 Search Expenses
+// const searchForm = document.getElementById("search-form");
+
+// if (searchForm) {
+//     searchForm.addEventListener("submit", async function(event) {
+//         event.preventDefault();
+
+//         const category = document.getElementById("category").value;
+
+//         try {
+//             const response = await fetch(`http://localhost:3000/api/expenses/search?category=${category}`);
+//             const data = await response.json();
+//             console.log("retrieved data", data)
+//             if (!response.ok) {
+//                 alert("Error fetching data");
+//                 return;
+//             }
+
+//             const rendered = Mustache.render(document.getElementById("expense-template").innerHTML, { expenses: data });
+//             console.log("Expenses rendered successfully!");
+//             document.getElementById("expense-results").innerHTML = rendered;
+//         } catch (error) {
+//             console.error("Error fetching expenses:", error);
+//             alert("Failed to fetch expenses.");
+//         }
+//     });
+// }
+
+
+

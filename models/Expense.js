@@ -11,12 +11,12 @@ db.run(`CREATE TABLE IF NOT EXISTS expenses (
 )`);
 
 const Expense = {
-    create: (title, amount, category, date, receipt, callback) => {
-        db.run(`INSERT INTO expenses (title, amount, category, date, receipt) VALUES (?, ?, ?, ?, ?)`,
-            [title, amount, category, date, receipt], callback);
+    create: (title, amount, category, date, receipt, email, callback) => {
+        db.run(`INSERT INTO expenses (title, amount, category, date, receipt, email) VALUES (?, ?, ?, ?, ?,?)`,
+            [title, amount, category, date, receipt, email], callback);
     },
-    getAll: (callback) => {
-        db.all(`SELECT * FROM expenses`, callback);
+    getAll: (email, callback) => {
+        db.all(`SELECT * FROM expenses where email = ?`,[email], callback);
     },
     delete: (id, callback) => {
         db.run(`DELETE FROM expenses WHERE id = ?`, [id], callback);
@@ -28,9 +28,23 @@ const Expense = {
     getById: (id, callback) => {
         db.get(`SELECT * FROM expenses WHERE id = ?`, [id], callback);
     },
-    findByCategory: (category, callback) => {
-        db.all(`SELECT * FROM expenses WHERE category = ?`, [category], callback);
+    // findByCategory: (category, email, callback) => {
+    //     db.all(`SELECT * FROM expenses WHERE category = Tools AND email = abc@test.com`, callback);
+    // }
+    findByCategory: (category, email, callback) => {
+        console.log("🔍 Running SQL Query: SELECT * FROM expenses WHERE category = ? AND email = ?", [category, email]);
+    
+        db.all(`SELECT * FROM expenses WHERE category = ? AND email = ?`, [category, email], (err, rows) => {
+            if (err) {
+                console.error("🚨 SQL Error:", err);
+                return callback(err, null);
+            }
+    
+            console.log("✅ SQL Query Result:", rows);
+            callback(null, rows);
+        });
     }
+    
 };
 
 module.exports = Expense;
